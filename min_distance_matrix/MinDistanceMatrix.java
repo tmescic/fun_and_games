@@ -35,12 +35,13 @@ public class MinDistanceMatrix {
         boolean[][] visited = new boolean[area.length][area[0].length];
         // do a breadth first search
 
-        List<List<Integer>> toVisit = new ArrayList<>();
-        toVisit.add(Arrays.asList(0, 0));
+        List<List<Integer>> queue = new ArrayList<>();
+        queue.add(Arrays.asList(0, 0));
+        visited[0][0] = true;
 
-        while (!toVisit.isEmpty()) {
+        while (!queue.isEmpty()) {
 
-            List<Integer> current = toVisit.remove(0);
+            List<Integer> current = queue.remove(0);
             int i = current.get(0);
             int j = current.get(1);
 
@@ -51,14 +52,13 @@ public class MinDistanceMatrix {
 
             int currentDistance = distance[i][j];
 
-            visited[i][j] = true;
-
             // get reachable neighbours that were not already visited
             List<List<Integer>> neighbours = getNeighbours(i, j, area, visited);
 
             for (List<Integer> n : neighbours) {
                 distance[n.get(0)][n.get(1)] = currentDistance + 1;
-                toVisit.add(n);
+                visited[n.get(0)][n.get(1)] = true;
+                queue.add(n);
             }
 
         }
